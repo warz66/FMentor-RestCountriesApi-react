@@ -8,6 +8,7 @@ class Home extends React.Component {
         this.state = {
             openSelect: false,
             error: null,
+            isLoaded: false,
             countries: [],
             region: 'Filter by Region',
             search: ''
@@ -20,7 +21,7 @@ class Home extends React.Component {
           .then(
             (result) => {
               this.setState({
-                error: false,
+                isLoaded: true,
                 countries: result
               });
             },
@@ -29,7 +30,8 @@ class Home extends React.Component {
             // des exceptions provenant de réels bugs du composant.
             (error) => {
               this.setState({
-                error: error
+                isLoaded: true,
+                error
               });
             }
           )
@@ -37,6 +39,23 @@ class Home extends React.Component {
       }
 
     render() {
+        let countriesSection;
+        const { error, isLoaded, countries } = this.state;
+        if(error) {
+            countriesSection = 
+                <div className="error">
+                    <p>{error.message}</p>
+                </div>
+        } else if (!isLoaded) {
+            countriesSection = <div>Loading...</div>
+        } else {
+            countriesSection = 
+                <div id="countries-box">
+                    {countries.map( country => {
+                        return <CountryBox country={country} key={country.name}/> 
+                    })}
+                </div>
+        }
         return(
             <div>
                 <div id="search-filter-panel">
@@ -66,11 +85,12 @@ class Home extends React.Component {
                 
 
                 <section id="countries">
-                    <div id="countries-box">
-                        {this.state.countries.map((country,i)=>{
-                            return <CountryBox country={country} key={i}/> 
+                    {/*<div id="countries-box">
+                        {this.state.countries.map(country=>{
+                            return <CountryBox country={country} key={country.name}/> 
                         })}
-                    </div>
+                    </div>*/}
+                    {countriesSection}
                 </section>
 
                 {/*<section id="countries">

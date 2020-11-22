@@ -22,7 +22,7 @@ class Home extends React.Component {
             (result) => {
               this.setState({
                 isLoaded: true,
-                countries: result
+                countries: result,
               });
             },
             // Remarque : il est important de traiter les erreurs ici
@@ -47,14 +47,16 @@ class Home extends React.Component {
                     <p>{error.message}</p>
                 </div>
         } else if (!isLoaded) {
-            countriesSection = <div>Loading...</div>
+            countriesSection = <div id="loading-countries">Loading...</div>
         } else {
             countriesSection = 
+            <section id="countries">
                 <div id="countries-box">
                     {countries.map( country => {
                         return <CountryBox country={country} key={country.name}/> 
                     })}
                 </div>
+            </section>
         }
         return(
             <div>
@@ -84,14 +86,25 @@ class Home extends React.Component {
                 </div>
                 
 
-                <section id="countries">
-                    {/*<div id="countries-box">
-                        {this.state.countries.map(country=>{
+                
+                {/*{(this.state.error && 
+                    <div className="error">
+                        <p>{error.message}</p>
+                    </div>) ||
+                (!this.state.isLoaded &&
+                    <div>Loading...</div>) || 
+                    <div id="countries-box">
+                        {countries.map( country => {
                             return <CountryBox country={country} key={country.name}/> 
                         })}
-                    </div>*/}
-                    {countriesSection}
-                </section>
+                    </div>}*/}
+                {/*{this.state.isLoaded && <div id="countries-box">
+                    {this.state.countries.map(country=>{
+                        return <CountryBox country={country} key={country.name}/> 
+                    })}
+                </div>}*/}
+                {countriesSection}
+                
 
                 {/*<section id="countries">
                     <div v-if="error" class="error">

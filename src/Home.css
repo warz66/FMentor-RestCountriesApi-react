@@ -99,6 +99,11 @@
     max-width: max-content;
     padding-bottom: 48px;
   }
+  #loading-countries {
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+  }
   #countries-box {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;

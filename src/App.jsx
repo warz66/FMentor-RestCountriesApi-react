@@ -20,9 +20,11 @@ class App extends React.Component {
   
   render() {
     return (
-      <div className={this.state.mode ? 'App light-mode' : 'App dark-mode'}>
-        <Header mode={this.state.mode} changeMode={this.changeMode}/>
-        <Home/>
+      <div className="App">
+        <div className={this.state.mode ? 'light-mode' : 'dark-mode'}>
+          <Header mode={this.state.mode} changeMode={this.changeMode}/>
+          <Home/>
+        </div>
       </div>
     );
   }

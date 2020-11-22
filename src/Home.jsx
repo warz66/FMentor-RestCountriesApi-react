@@ -19,10 +19,10 @@ class Home extends React.Component {
           .then(res => res.json())
           .then(
             (result) => {
-              {this.setState({
+              this.setState({
                 error: false,
                 countries: result
-              });console.log(result);};
+              });
             },
             // Remarque : il est important de traiter les erreurs ici
             // au lieu d'utiliser un bloc catch(), pour ne pas passer à la trappe

@@ -13,30 +13,53 @@ class Home extends React.Component {
             region: 'Filter by Region',
             search: ''
         }
+
+        this.searchChange = this.searchChange.bind(this);
+        this.openSelect = this.openSelect.bind(this);
+        this.filter = this.filter.bind(this);
+        this.setWrapperRef = this.setWrapperRef.bind(this);
+        this.handleClickOutside = this.handleClickOutside.bind(this);
+    }
+    
+    searchChange(event) {
+        this.setState({search: event.target.value});
+    }
+
+    openSelect() {
+        this.setState({openSelect: !this.state.openSelect}); 
+    }
+
+    regionChange(region) {
+        this.setState({region: region});
+        this.openSelect();     
+    }
+
+    filter(country) {
+        return ((country.region === this.state.region || this.state.region === 'Filter by Region') && country.name.toLowerCase().includes(this.state.search.toLowerCase()));
+    }
+
+    setWrapperRef(node) {
+        this.wrapperRef = node;
+        console.log(this.wrapperRef);
+    }
+
+    handleClickOutside(event) {
+        if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+            this.setState({openSelect: false});
+        }
     }
 
     componentDidMount() {
+        document.addEventListener('mousedown', this.handleClickOutside);
+
         fetch('https://restcountries.eu/rest/v2/all')
           .then(res => res.json())
-          .then(
-            (result) => {
-              this.setState({
-                isLoaded: true,
-                countries: result,
-              });
-            },
-            // Remarque : il est important de traiter les erreurs ici
-            // au lieu d'utiliser un bloc catch(), pour ne pas passer à la trappe
-            // des exceptions provenant de réels bugs du composant.
-            (error) => {
-              this.setState({
-                isLoaded: true,
-                error
-              });
-            }
-          )
-        
-      }
+          .then((result) => { this.setState({ isLoaded: true, countries: result}); }, (error) => { this.setState({ isLoaded: true, error }); })   
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('mousedown', this.handleClickOutside);
+    }
 
     render() {
         let countriesSection;
@@ -52,8 +75,9 @@ class Home extends React.Component {
             countriesSection = 
             <section id="countries">
                 <div id="countries-box">
-                    {countries.map( country => {
-                        return <CountryBox country={country} key={country.name}/> 
+                    {countries/*.filter(country => country.name.toLowerCase().includes(this.state.search.toLowerCase()))*/
+                              .map( country => {
+                                return <CountryBox country={country} key={country.name} show={this.filter(country)}/> 
                     })}
                 </div>
             </section>
@@ -62,30 +86,26 @@ class Home extends React.Component {
             <div>
                 <div id="search-filter-panel">
                     <div id="search-country-wrapper">
-                        <input type="text" v-model="search" aria-label="Allows you to search for a country" placeholder="Search for a country..."/>
+                        <input type="text" value={this.state.search} onChange={this.searchChange} aria-label="Allows you to search for a country" placeholder="Search for a country..."/>
                     </div>
 
-                    {/*<div id="select-region-wrapper">
-                        <div id="select-region-btn">
-                        {{region}}
-                        <svg width="12px" height="12px" viewbox="0 0 12 12" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g id="check"><path d="M0 0L12 0L12 12L0 12L0 0Z" id="Rectangle" fill="none" fill-rule="evenodd" stroke="none" /><g id="expand-more" transform="translate(1.5 3.75)"><path d="M7.95 1.33227e-15L4.5 3.45L1.05 1.33227e-15L0 1.05L4.5 5.55L9 1.05L7.95 1.33227e-15Z" transform="translate(0 -0.3)" id="Shape" fill-rule="evenodd" stroke="none" /></g></g></svg>
+                    <div id="select-region-wrapper" ref={this.setWrapperRef}>
+                        <div id="select-region-btn" onClick={this.openSelect}>
+                            {this.state.region}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"><g><path fill="none" fillRule="evenodd" stroke="none" d="M0 0h12v12H0V0z"></path><g transform="translate(1.5 3.75)"><path fillRule="evenodd" stroke="none" d="M7.95 0L4.5 3.45 1.05 0 0 1.05l4.5 4.5L9 1.05 7.95 0z" transform="translate(0 -.3)"></path></g></g></svg>
                         </div>
-                        <transition name="slide"> 
-                        <div id="select-region-nav" v-show="openSelect">
+                        <div id="select-region-nav" className={this.state.openSelect ? 'isOpenSelect' : 'isCloseSelect'}>
                             <ul>
-                            <li onClick={() => {region='Filter by Region'; openSelect=!openSelect;}}>All</li>
-                            <li onClick={region='Africa'; openSelect=!openSelect}>Africa</li>
-                            <li onClick={region='Americas'; openSelect=!openSelect}>America</li>
-                            <li onClick={region='Asia'; openSelect=!openSelect}>Asia</li>
-                            <li onClick={region='Europe'; openSelect=!openSelect}>Europe</li>
-                            <li onClick={region='Oceania'; openSelect=!openSelect}>Oceania</li>
+                                <li onClick={()=>this.regionChange('Filter by Region')}>All</li>
+                                <li onClick={()=>this.regionChange('Africa')}>Africa</li>
+                                <li onClick={()=>this.regionChange('Americas')}>Americas</li>
+                                <li onClick={()=>this.regionChange('Asia')}>Asia</li>
+                                <li onClick={()=>this.regionChange('Europe')}>Europe</li>
+                                <li onClick={()=>this.regionChange('Oceania')}>Oceania</li>
                             </ul>
                         </div>
-                        </transition> 
-                    </div>*/}
+                    </div>
                 </div>
-                
-
                 
                 {/*{(this.state.error && 
                     <div className="error">
@@ -103,17 +123,9 @@ class Home extends React.Component {
                         return <CountryBox country={country} key={country.name}/> 
                     })}
                 </div>}*/}
+
                 {countriesSection}
                 
-
-                {/*<section id="countries">
-                    <div v-if="error" class="error">
-                        <p>{{error.message}}</p>
-                    </div>
-                    <div id="countries-box" v-else-if="error === false">
-                        <CountryBox v-for="country in countries" :key="country" v-show="filter(country)" :country="country" />
-                    </div>
-                </section>*/}
             </div>
         );
     }

@@ -58,7 +58,7 @@
     align-items: center;
     background: var(--el-color);
     top: 60px;
-    height: 192px;
+    /*height: 192px;*/
     width: 100%;
     border-radius: 5px;
     font-size: 14px;
@@ -67,6 +67,12 @@
     padding-left: 24px;
     transition: all 0.3s;
     overflow: hidden;
+  }
+  .isCloseSelect {
+    height: 0px;
+  }
+  .isOpenSelect {
+    height: 192px;
   }
   #select-region-nav li {
     cursor: pointer;
@@ -169,6 +175,9 @@
       font-size: 12px;
       line-height: 16px;
       top: 92px;
+      /*height: 168px;*/
+    }
+    .isOpenSelect {
       height: 168px;
     }
   }

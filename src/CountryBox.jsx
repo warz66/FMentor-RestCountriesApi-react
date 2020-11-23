@@ -7,7 +7,7 @@ class CountryBox extends React.Component {
 
     render() {
         return(
-            <div className="country-box">
+            <div className="country-box" style={{display: this.props.show ? '' : 'none'}}>
                 <img src={this.props.country.flag} alt={this.props.country.name+' flag'}/>
                 <div className="country-box-info">
                     <h2>{this.props.country.name}</h2>

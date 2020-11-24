@@ -40,7 +40,6 @@ class Home extends React.Component {
 
     setWrapperRef(node) {
         this.wrapperRef = node;
-        console.log(this.wrapperRef);
     }
 
     handleClickOutside(event) {

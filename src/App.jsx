@@ -2,7 +2,9 @@
 import './App.css';
 import Header from './Header';
 import Home from './Home';
+import Country from './Country';
 import React from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 
 class App extends React.Component {
@@ -22,7 +24,16 @@ class App extends React.Component {
     return (
       <div className={this.state.mode ? 'App light-mode' : 'App dark-mode'}>
         <Header mode={this.state.mode} changeMode={this.changeMode}/>
-        <Home/>
+        <Router>
+          <Switch>
+            <Route path="/Country/:a3c">
+              <Country/>
+            </Route>
+            <Route exact path="/">
+              <Home/>
+            </Route>
+          </Switch>
+        </Router>
       </div>
     );
   }

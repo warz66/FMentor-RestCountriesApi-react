@@ -26,12 +26,8 @@ class App extends React.Component {
         <Header mode={this.state.mode} changeMode={this.changeMode}/>
         <Router>
           <Switch>
-            <Route path="/Country/:a3c">
-              <Country/>
-            </Route>
-            <Route exact path="/">
-              <Home/>
-            </Route>
+            <Route path="/Country/:a3c" component={Country}/>
+            <Route exact path="/" component={Home}/>
           </Switch>
         </Router>
       </div>

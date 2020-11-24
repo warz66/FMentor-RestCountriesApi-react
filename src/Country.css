@@ -1,0 +1,155 @@
+#country-view {
+    max-width: 1280px;
+    margin: 80px auto 0 auto;
+    padding-bottom: 80px;
+}
+#country {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 80px;
+    max-width: 1280px;
+}
+#country-panel {
+    width: 600px;
+}
+#country-panel h2 {
+    font-size: 32px;
+    line-height: 44px;
+    margin-bottom: 23px;
+    transition: all 0.3s;
+}
+#country-panel-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    line-height: 32px;
+    margin-bottom: 58px;
+    transition: all 0.3s;
+}
+#country-panel-info div {
+    max-width: 50%;
+}
+#countries-border {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    transition: all 0.3s;
+}
+.button-border-country {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 96px;
+    border-radius: 2px;
+    min-height: 28px;
+    background-color: var(--el-color);
+    box-shadow: 0px 0px 4px 1px rgba(0,0,0,0.11);
+    font-size: 14px;
+    line-height: 19px;
+    margin: 10px 5px;
+    padding: 4px 10px;
+    transition: all 0.3s;  
+    text-decoration: none;
+    color: var(--font-color);
+}
+#button-back {
+    width: 136px;
+    height: 40px;
+    background-color: var(--el-color);
+    box-shadow: 0px 0px 7px rgba(0,0,0,0.29);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    font-size: 16px;  
+    line-height: 20px;
+    padding: 0px 40px 0px 33px; 
+    text-decoration: none;
+    color: var(--font-color);
+    transition: all 0.3s; 
+}
+#button-back svg {
+    fill: var(--font-color);
+    transition: fill 0.3s; 
+    margin-right: 10px;
+}
+#countries-border p:first-of-type {
+    margin-right: 10px;
+}
+#country-img {
+    width: 560px;
+}
+#country img {
+    width: 100%;
+    max-height: 401px;
+}
+
+@media (max-width: 1350px) {
+    #country-view {
+        padding: 0px 6vw 80px 6vw;
+    }
+    #country-panel {
+        margin-left:50px;
+    }    
+}
+@media (max-width: 1150px) {
+    #country {
+        flex-direction: column;
+        align-items: center;
+    }
+    #country-panel {
+        margin-top: 74px;
+    }
+}
+@media (max-width: 800px) {
+    #country-panel {
+        margin-left: 0px;
+        width: 100%;
+    }
+    #country-img {
+        width: 100%;
+        max-width: none;
+    }
+}
+@media (max-width: 600px) {
+    #country-view {
+        padding: 0 27px 40px 28px;
+        margin-top: 40px;
+    }
+    #country {
+        margin-top: 64px;
+    }
+    #country-panel {
+        width: 100%;
+        margin: 30px 0px 0px 0px;
+    }
+    #country-panel h2 {
+        font-size: 22px;
+        margin-bottom: 11px;
+    }
+    #country-panel-info div {
+        max-width: none;
+    }
+    #country-panel-info {
+        flex-direction: column;
+        margin-bottom: 34px;
+        font-size: 14px;
+    }
+    #country-panel-info div:first-of-type {
+        margin-bottom: 32px;
+    }
+    #countries-border p {
+        width: 100%;
+        margin-bottom: 16px;
+    }
+    #button-back {
+        width: 104px;
+        height: 32px;
+        font-size: 14px;
+        padding: 0 23px 0 22px;
+    }
+    .button-border-country {
+        font-size: 12px;
+        margin: 0px 10px 10px 0px;
+    }
+}

@@ -69,7 +69,7 @@ class Home extends React.Component {
                     <p>{error.message}</p>
                 </div>
         } else if (!isLoaded) {
-            countriesSection = <div id="loading-countries">Loading...</div>
+            countriesSection = <div className="loading">Loading...</div>
         } else {
             countriesSection = 
             <section id="countries">

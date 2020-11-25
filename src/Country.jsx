@@ -62,7 +62,7 @@ class Country extends React.Component {
                 </div>
         } else if (!isLoadedCountry) {
             countryElement = <div className="loading">Loading...</div>
-        } else {
+        } else if(isLoadedCountry){
             let countriesBorderElement;
             const { isLoadedCountriesBorder, countriesBorder } = this.state;
             if(!isLoadedCountriesBorder) {

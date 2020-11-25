@@ -6,11 +6,10 @@ class Country extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            a3c: this.props.match.params.a3c,
+            //a3c: this.props.match.params.a3c,
             isLoadedCountry: false,
             errorCountry: null,
             isLoadedCountriesBorder: false,
-            //errorCountriesBorder: null,
             country: null,
             countriesBorder: []
         }
@@ -23,47 +22,34 @@ class Country extends React.Component {
         return array.map(array => array[idxStr]).join(', ');
     }
 
-    country(country) {
-        let countriesBorder= [];
-        this.setState({ isLoadedCountry: true, country: country});
-        country.borders.forEach((countryBorderA3C, index) => {
-            fetch(`https://restcountries.eu/rest/v2/alpha/${countryBorderA3C}?fields=name`)
-                .then(res => res.json())
-                .then((result) => { countriesBorder.splice(index, 0, {"name": result.name, "a3c": countryBorderA3C}); this.setState({ countriesBorder: countriesBorder, isLoadedCountriesBorder: true }); }, 
-                      (error) => { countriesBorder.splice(index, 0, {"name": countryBorderA3C, "a3c": countryBorderA3C, "error": error.message}); /*this.setState({ isLoadedCountriesBorder: true});*/ })
-        })
-        /*this.setState({ countriesBorder: countriesBorder, isLoadedCountriesBorder: true});*/
-    }
-
     consumeApi() {
-        fetch('https://restcountries.eu/rest/v2/alpha/'+this.state.a3c)
+        fetch('https://restcountries.eu/rest/v2/alpha/'+this.props.match.params.a3c)
           .then(res => res.json())
-          .then((result) => { this.setState({ isLoadedCountry: true, country: result}); this.country(result) }, (error) => { this.setState({ isLoadedCountry: true, errorCountry: error }); })
+          .then((result) => { this.setState({ isLoadedCountry: true, country: result, isLoadedCountriesBorder: false}); this.country() }, (error) => { this.setState({ isLoadedCountry: true, errorCountry: error,  }); })
     }
 
-    /*componentDidUpdate(prevProps) {
-        
-        if (prevProps.match.params.a3c !== this.state.a3c) {
-            this.setState({ a3c: prevProps.match.params.a3c});
-            console.log(this.state.a3c);
+    async country() {
+        const countriesBorder = await this.countriesBorder();
+        this.setState({ countriesBorder, isLoadedCountriesBorder: true });
+    }
+
+    async countriesBorder() {
+        const promises = this.state.country.borders.map(async function(countryBorderA3C) {
+            return await fetch(`https://restcountries.eu/rest/v2/alpha/${countryBorderA3C}?fields=name`).then(res => res.json())
+                .then(result => { return {"name": result.name, "a3c": countryBorderA3C} }).catch(() => { return {"name": countryBorderA3C, "a3c": countryBorderA3C}});
+        });
+        return await Promise.all(promises);
+    }
+
+    componentDidUpdate(prevProps) {
+        if(this.props.match.params.a3c !== prevProps.match.params.a3c) {
+            this.setState({ isLoadedCountry: false });
             this.consumeApi();
         }
-    }*/
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.match.params.a3c !== this.state.a3c) {
-            this.setState({ a3c: nextProps.match.params.a3c});
-            fetch('https://restcountries.eu/rest/v2/alpha/'+nextProps.match.params.a3c)
-                .then(res => res.json())
-                .then((result) => { this.country(result) }, (error) => { this.setState({ isLoadedCountry: true, errorCountry: error }); })
-            }
     }
 
     componentDidMount() {
         this.consumeApi();
-        /*fetch('https://restcountries.eu/rest/v2/alpha/'+this.state.a3c)
-          .then(res => res.json())
-          .then((result) => { this.setState({ isLoadedCountry: true, country: result}); this.country(result) }, (error) => { this.setState({ isLoadedCountry: true, errorCountry: error }); })   */
     }
 
     render() {
@@ -78,8 +64,11 @@ class Country extends React.Component {
             countryElement = <div className="loading">Loading...</div>
         } else {
             let countriesBorderElement;
-            const { /*errorCountriesBorder,*/ isLoadedCountriesBorder, countriesBorder } = this.state;
-            if(countriesBorder.length && isLoadedCountriesBorder) {
+            const { isLoadedCountriesBorder, countriesBorder } = this.state;
+            if(!isLoadedCountriesBorder) {
+                countriesBorderElement = 
+                    <div>Loading...</div>
+            } else if(countriesBorder.length) {    
                 countriesBorderElement = 
                     countriesBorder.map( countryBorder => {
                         return <Link to={"/Country/"+countryBorder.a3c} key={countryBorder.name} className="button-border-country">{countryBorder.name}</Link>

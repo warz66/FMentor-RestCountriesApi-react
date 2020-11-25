@@ -25,7 +25,7 @@ class Country extends React.Component {
     consumeApi() {
         fetch('https://restcountries.eu/rest/v2/alpha/'+this.props.match.params.a3c)
           .then(res => res.json())
-          .then((result) => { this.setState({ isLoadedCountry: true, country: result, isLoadedCountriesBorder: false}); this.country() }, (error) => { this.setState({ isLoadedCountry: true, errorCountry: error,  }); })
+          .then((result) => { this.setState({ isLoadedCountry: true, country: result/*, isLoadedCountriesBorder: false*/}); this.country() }, (error) => { this.setState({ isLoadedCountry: true, errorCountry: error,  }); })
     }
 
     async country() {
@@ -43,7 +43,7 @@ class Country extends React.Component {
 
     componentDidUpdate(prevProps) {
         if(this.props.match.params.a3c !== prevProps.match.params.a3c) {
-            this.setState({ isLoadedCountry: false });
+            //this.setState({ isLoadedCountry: false });
             this.consumeApi();
         }
     }
@@ -112,7 +112,7 @@ class Country extends React.Component {
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"><path fillRule="evenodd" d="M12.182 3.697l-1.06 1.06 3.5 3.5H1.256v1.485h13.364l-3.5 3.5 1.061 1.061L17.485 9l-5.303-5.303z" transform="matrix(-1 0 0 1 18 0)"></path></svg>
                     Back
                 </Link>
-
+            
                 {countryElement}
             </section>
         );

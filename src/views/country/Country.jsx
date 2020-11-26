@@ -14,11 +14,11 @@ class Country extends React.Component {
             countriesBorder: []
         }
 
-        this.sortArray = this.sortArray.bind(this);
-        this.country = this.country.bind(this);
+        //this.sortArray = this.sortArray.bind(this);
+        //this.country = this.country.bind(this);
     }
 
-    sortArray(array, idxStr) {
+    sortArray = (array, idxStr) => {
         return array.map(array => array[idxStr]).join(', ');
     }
 
@@ -33,12 +33,11 @@ class Country extends React.Component {
         this.setState({ countriesBorder, isLoadedCountriesBorder: true });
     }
 
-    async countriesBorder() {
-        const promises = this.state.country.borders.map(async function(countryBorderA3C) {
+    countriesBorder() {
+        return Promise.all(this.state.country.borders.map(async function(countryBorderA3C) {
             return await fetch(`https://restcountries.eu/rest/v2/alpha/${countryBorderA3C}?fields=name`).then(res => res.json())
                 .then(result => { return {"name": result.name, "a3c": countryBorderA3C} }).catch(() => { return {"name": countryBorderA3C, "a3c": countryBorderA3C}});
-        });
-        return await Promise.all(promises);
+        }));
     }
 
     componentDidUpdate(prevProps) {

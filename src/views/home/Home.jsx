@@ -1,6 +1,6 @@
 import './Home.css';
 import React from "react";
-import CountryBox from './CountryBox';
+import CountryBox from 'components/countryBox/CountryBox';
 
 class Home extends React.Component {
     constructor(props) {

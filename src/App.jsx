@@ -1,8 +1,8 @@
 //import logo from './logo.svg';
 import './App.css';
-import Header from './Header';
-import Home from './Home';
-import Country from './Country';
+import Header from 'components/header/Header';
+import Home from 'views/home/Home';
+import Country from 'views/country/Country';
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 

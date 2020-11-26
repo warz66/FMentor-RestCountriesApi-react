@@ -1,5 +1,5 @@
 import './Header.css';
-import moon from '../src/assets/images/moon-regular.svg';
+import moon from 'assets/images/moon-regular.svg';
 import React from "react";
 
 

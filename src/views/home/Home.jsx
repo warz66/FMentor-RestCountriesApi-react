@@ -74,8 +74,7 @@ class Home extends React.Component {
             countriesSection = 
             <section id="countries">
                 <div id="countries-box">
-                    {countries/*.filter(country => country.name.toLowerCase().includes(this.state.search.toLowerCase()))*/
-                              .map( country => {
+                    {countries.map( country => {
                                 return <CountryBox country={country} key={country.name} show={this.filter(country)}/> 
                     })}
                 </div>

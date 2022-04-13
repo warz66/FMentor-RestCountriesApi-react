@@ -23,7 +23,7 @@ class Country extends React.Component {
     }
 
     consumeApi() {
-        fetch('https://restcountries.eu/rest/v2/alpha/'+this.props.match.params.a3c)
+        fetch('https://restcountries.com/v2/alpha/'+this.props.match.params.a3c)
           .then(res => res.json())
           .then((result) => { this.setState({ isLoadedCountry: true, country: result/*, isLoadedCountriesBorder: false*/}); this.country() }, (error) => { this.setState({ isLoadedCountry: true, errorCountry: error,  }); })
     }
@@ -35,7 +35,7 @@ class Country extends React.Component {
 
     countriesBorder() {
         return Promise.all(this.state.country.borders.map(async function(countryBorderA3C) {
-            return await fetch(`https://restcountries.eu/rest/v2/alpha/${countryBorderA3C}?fields=name`).then(res => res.json())
+            return await fetch(`https://restcountries.com/v2/alpha/${countryBorderA3C}?fields=name`).then(res => res.json())
                 .then(result => { return {"name": result.name, "a3c": countryBorderA3C} }).catch(() => { return {"name": countryBorderA3C, "a3c": countryBorderA3C}});
         }));
     }

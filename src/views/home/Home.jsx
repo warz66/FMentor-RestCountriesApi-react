@@ -51,9 +51,9 @@ class Home extends React.Component {
     componentDidMount() {
         document.addEventListener('mousedown', this.handleClickOutside);
 
-        fetch('https://restcountries.eu/rest/v2/all')
+        fetch('https://restcountries.com/v2/all')
           .then(res => res.json())
-          .then((result) => { this.setState({ isLoaded: true, countries: result}); }, (error) => { this.setState({ isLoaded: true, error }); })   
+          .then((result) => { console.log(result); this.setState({ isLoaded: true, countries: result});}, (error) => { this.setState({ isLoaded: true, error }); })   
     }
 
     componentWillUnmount() {
